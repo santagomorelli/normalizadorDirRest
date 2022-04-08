@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { request, response, next } from 'express';
+import { request, response } from 'express';
 import haversine from 'haversine-distance';
 
 class Normalizador {
@@ -68,4 +68,4 @@ class Normalizador {
     }
 }
 
-export const normalizarDir = new Normalizador();
+export const normalizarController = new Normalizador();

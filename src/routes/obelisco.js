@@ -1,8 +1,8 @@
-import { Router, request, response, next } from 'express';
-import { normalizarDir } from '../controllers/normalizarDir';
+import { Router } from 'express';
+import { normalizarController } from '../controllers/normalizarController';
 
 const router = Router();
 
-router.get('/', normalizarDir.obelisco);
+router.get('/', normalizarController.obelisco);
 
 export default router;
