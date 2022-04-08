@@ -1,0 +1,25 @@
+{
+    "name": "proyectobase",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon --exec babel-node ./src/index.js",
+        "transpile": "babel src --out-dist",
+        "start": "node ./dist/index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/cli": "^7.14.8",
+        "@babel/core": "^7.14.8",
+        "@babel/node": "^7.14.9",
+        "@babel/preset-env": "^7.14.9"
+    },
+    "dependencies": {
+        "axios": "^0.26.1",
+        "express": "^4.17.1"
+    }
+}
