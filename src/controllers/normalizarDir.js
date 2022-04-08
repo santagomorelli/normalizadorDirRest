@@ -10,6 +10,7 @@ class Normalizador {
         const data = req.body;
         const direccion = `${data.calle}${data.altura}`
         const url = `https://apis.datos.gob.ar/georef/api/direcciones?direccion=${direccion}&provincia=${data.provincia}&departamento=${data.departamento}`;
+        console.log(url)
         await axios
             .get(url)
             .then((response) => {
@@ -42,7 +43,6 @@ class Normalizador {
         const direccionParticionada = direccionNormalizada.split(',');
         console.log(direccionParticionada);
         const url = `https://apis.datos.gob.ar/georef/api/direcciones?direccion=${direccionParticionada[0]}&departamento=${direccionParticionada[1]}&provincia=${direccionParticionada[2]}`;
-        console.log(url);
         await axios
             .get(url)
             .then((response) => {
@@ -62,7 +62,7 @@ class Normalizador {
 
         const distance = haversine(obelisco, b);
 
-        if (distance <= 1000000) { res.json({ msg: 'Estas a menos de 5 Kilòmetros del Obelisco' }) } else {
+        if (distance <= 5000) { res.json({ msg: 'Estas a menos de 5 Kilòmetros del Obelisco' }) } else {
             res.json({ msg: 'Estas lejos del Obelisco' })
         }
     }
