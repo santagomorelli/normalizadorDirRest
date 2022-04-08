@@ -5,5 +5,6 @@ import { normalizarDir } from '../controllers/normalizarDir';
 const router = Router();
 
 router.get('/', normalizarDir.get);
+//router.get('/', normalizarDir.obelisco)
 
 export default router;
