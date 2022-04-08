@@ -16,9 +16,7 @@ class Normalizador {
                 const info = response.data;
                 const direcciones = info.direcciones;
                 const cantidad = info.cantidad;
-                if (cantidad < 2) { res.json(direcciones.nomenclatura) } else if (cantidad = 0) {
-                    res.json({ msg: 'Calle no encontrada' })
-                } else {
+                if (cantidad == 0) { res.json({ msg: 'Calle no encontrada' }) } else if (cantidad == 1) { res.json(direcciones.nomenclatura) } else {
                     let nomenclaturas = [];
                     for (let i = 0; i < cantidad; i++) {
                         nomenclaturas = nomenclaturas + direcciones[i].localidad_censal.nombre
