@@ -2,6 +2,7 @@ import soapRequest from 'easy-soap-request';
 import convert from 'xml-js';
 
 export async function convertiraISO(nombre) {
+    let ret;
     const url = 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL';
     const sampleHeaders = {
         'user-agent': 'sampleTest',
@@ -17,13 +18,12 @@ export async function convertiraISO(nombre) {
     </soapenv:Body>
  </soapenv:Envelope>`;
 
-    (async() => {
+    await (async() => {
         const { response } = await soapRequest({ url: url, headers: sampleHeaders, xml: xml, timeout: 1000 }); // Optional timeout parameter(milliseconds)
         const { body } = response;
-        console.log(body)
         const bodyJson = convert.xml2js(body, { compact: false });
-        let nombrePais = bodyJson //.elements[0].elements[0].elements[0].elements[0].elements[1].elements[0].text;
-        return nombrePais;
+        let nombrePais = bodyJson;
+        ret = nombrePais.elements[0].elements[0].elements[0].elements[0].elements[0].text;
     })();
-
+    return ret;
 }
