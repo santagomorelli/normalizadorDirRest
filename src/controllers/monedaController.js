@@ -1,13 +1,27 @@
 import { request, response } from 'express';
 import soapRequest from 'easy-soap-request';
-import fs from 'fs/promises';
+import convert from 'xml-js';
+import { convertiraISO } from './../middleware/convertirPaisaISO'
+import { normalizarNombrePais } from './../middleware/normalizarNombrePais';
 
 class Moneda {
 
     constructor() {}
 
-    get(req = request, res = response) {
-        const countryISO = 'ARG';
+    async get(req = request, res = response) {
+        const paisISO = req.body.paisISO;
+        const paisNombre = req.body.paisNombre;
+        const error = 'Envie el nombre o el codigo ISO del pais';
+        let paisISOFinal = '';
+        let a = 'hola';
+        if (paisISO) {
+            paisISOFinal = paisISO.toUpperCase();
+        } else if (paisNombre) {
+            const paisNombreNorm = normalizarNombrePais(paisNombre);
+            console.log(paisNombreNorm);
+            a = await convertiraISO(paisNombreNorm);
+            paisISOFinal = a.toUpperCase();
+        } else { res.json({ error }) };
         const url = 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL';
         const sampleHeaders = {
             'user-agent': 'sampleTest',
@@ -15,21 +29,20 @@ class Moneda {
             'soapAction': 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso',
         };
         const xml = `<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.oorsprong.org/websamples.countryinfo">
-        <soap:Header/>
-        <soap:Body>
-           <web:CountryCurrency>
-              <web:sCountryISOCode>${countryISO}</web:sCountryISOCode>
-           </web:CountryCurrency>
-        </soap:Body>
-     </soap:Envelope>`;
+                     <soap:Header/>
+                     <soap:Body>
+                    <web:CountryCurrency>
+                    <web:sCountryISOCode>${paisISOFinal}</web:sCountryISOCode>
+                    </web:CountryCurrency>
+                    </soap:Body>
+                    </soap:Envelope>`;
 
-        // usage of module
         (async() => {
             const { response } = await soapRequest({ url: url, headers: sampleHeaders, xml: xml, timeout: 1000 }); // Optional timeout parameter(milliseconds)
-            const { headers, body, statusCode } = response;
-            console.log(headers);
-            console.log(body);
-            console.log(statusCode);
+            const { body } = response;
+            const bodyJson = convert.xml2js(body, { compact: false });
+            const nombreMoneda = bodyJson.elements[0].elements[0].elements[0].elements[0].elements[1].elements[0].text;
+            res.json({ nombreMoneda, bodyJson });
         })();
 
     }

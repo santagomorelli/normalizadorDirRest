@@ -23,6 +23,7 @@
         "easy-soap-request": "^4.7.0",
         "express": "^4.17.1",
         "fs": "0.0.1-security",
-        "haversine-distance": "^1.2.1"
+        "haversine-distance": "^1.2.1",
+        "xml-js": "^1.6.11"
     }
 }

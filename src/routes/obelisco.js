@@ -3,6 +3,6 @@ import { normalizarController } from '../controllers/normalizarController';
 
 const router = Router();
 
-router.get('/', normalizarController.obelisco);
+router.post('/', normalizarController.obelisco);
 
 export default router;

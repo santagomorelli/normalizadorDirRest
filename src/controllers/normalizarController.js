@@ -6,10 +6,22 @@ class Normalizador {
     constructor() {}
 
     async get(req = request, res = response, next) {
-
+        let url;
         const data = req.body;
-        const direccion = `${data.calle}${data.altura}`
-        const url = `https://apis.datos.gob.ar/georef/api/direcciones?direccion=${direccion}&provincia=${data.provincia}&departamento=${data.departamento}`;
+        if (!data.calle || !data.altura || !data.provincia) {
+            res.json({ msg: 'Datos ingresados insuficientes' })
+        } else {
+            const direccion = `${data.calle}${data.altura}`
+            url = `https://apis.datos.gob.ar/georef/api/direcciones?direccion=${direccion}&provincia=${data.provincia}`;
+
+            if (data.departamento) {
+                url = `${url}&departamento=${data.departamento}`;
+            } else {
+                url = url;
+            }
+        }
+
+
         console.log(url)
         await axios
             .get(url)
@@ -23,7 +35,7 @@ class Normalizador {
                 } else {
                     let nomenclaturas = [];
                     for (let i = 0; i < cantidad; i++) {
-                        nomenclaturas = nomenclaturas + direcciones[i].localidad_censal.nombre
+                        nomenclaturas[i] = direcciones[i].localidad_censal.nombre
                     }
                     res.json(nomenclaturas);
                 }
@@ -39,7 +51,7 @@ class Normalizador {
         let nuevaLong = 0;
         const obelisco = { latitude: -34.6037389, longitude: -58.3815704 };
 
-        const direccionNormalizada = req.body.direccionNorm;
+        const direccionNormalizada = req.body.direccion;
         const direccionParticionada = direccionNormalizada.split(',');
         console.log(direccionParticionada);
         const url = `https://apis.datos.gob.ar/georef/api/direcciones?direccion=${direccionParticionada[0]}&departamento=${direccionParticionada[1]}&provincia=${direccionParticionada[2]}`;
