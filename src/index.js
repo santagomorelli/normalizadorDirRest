@@ -1,6 +1,7 @@
 import express from "express";
 import routes from './routes';
-
+import swaggerUi from 'swagger-ui-express';
+import swaggerFile from './../swagger_output.json';
 
 const puerto = 8080;
 
@@ -18,3 +19,4 @@ server.on('error', (err) => {
 });
 
 app.use('/', routes);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));

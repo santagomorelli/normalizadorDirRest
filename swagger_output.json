@@ -1,0 +1,102 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Direcciones y Monedas",
+        "description": "Ejercicio sobre APIRest y SOAP"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "schemes": [
+        "http"
+    ],
+    "tags": [{
+        "name": "Normalizar direcciones"
+    }, {
+        "name": "Obelisco"
+    }, {
+        "name": "Moneda oficial de un pais"
+    }],
+    "paths": {
+        "/normalizar/": {
+            "post": {
+                "tags": ["Normalizar direcciones"],
+                "description": "Retorna una direccion normalizada a partir de los datos necesarios",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "schema": {
+                        "type": "object",
+                        "required": "true",
+                        "properties": {
+                            "calle": {
+                                "example": "San Martin"
+                            },
+                            "altura": {
+                                "example": "1901"
+                            },
+                            "provincia": {
+                                "example": "Buenos Aires"
+                            },
+                            "departamento": {
+                                "required": "false",
+                                "example": "General Pueyrredon"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/obelisco/": {
+            "post": {
+                "tags": ["Obelisco"],
+                "description": "Indica si una direccion se encuentra a mas o menos de 5km del Obelisco",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "direccion": {
+                                "example": "SAN MARTIN 1901,General Pueyrredon,Buenos Aires"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/moneda/": {
+            "post": {
+                "tags": ["Moneda oficial de un pais"],
+                "description": "Retorna el nombre de la moneda oficial de un pais. El pais debe ser ingresado en Castellano si es un pais de habla española y en ingles en el resto de los paises",
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "paisNombre": {
+                                "example": "United Kingdom"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    }
+}

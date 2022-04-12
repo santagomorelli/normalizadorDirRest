@@ -9,14 +9,11 @@ class Moneda {
     constructor() {}
 
     async get(req = request, res = response) {
-        const paisISO = req.body.paisISO;
         const paisNombre = req.body.paisNombre;
         const error = 'Envie el nombre o el codigo ISO del pais';
         let paisISOFinal = '';
         let a = 'hola';
-        if (paisISO) {
-            paisISOFinal = paisISO.toUpperCase();
-        } else if (paisNombre) {
+        if (paisNombre) {
             const paisNombreNorm = normalizarNombrePais(paisNombre);
             console.log(paisNombreNorm);
             a = await convertiraISO(paisNombreNorm);
