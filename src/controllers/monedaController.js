@@ -18,7 +18,7 @@ class Moneda {
             console.log(paisNombreNorm);
             a = await convertiraISO(paisNombreNorm);
             paisISOFinal = a.toUpperCase();
-        } else { res.json({ error }) };
+        } else { res.status(400).json({ msg: 'no se ha recibido el nombre del pais' }) };
         const url = 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?WSDL';
         const sampleHeaders = {
             'user-agent': 'sampleTest',
@@ -39,7 +39,11 @@ class Moneda {
             const { body } = response;
             const bodyJson = convert.xml2js(body, { compact: false });
             const nombreMoneda = bodyJson.elements[0].elements[0].elements[0].elements[0].elements[1].elements[0].text;
-            res.json({ nombreMoneda, bodyJson });
+            if (nombreMoneda == krone) {
+                res.status(400).json({ msg: 'Ha ingresado incorrectamente el nombre del pais' })
+            } else {
+                res.json({ nombreMoneda });
+            }
         })();
 
     }

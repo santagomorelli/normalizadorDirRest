@@ -9,7 +9,7 @@ class Normalizador {
         let url;
         const data = req.body;
         if (!data.calle || !data.altura || !data.provincia) {
-            res.json({ msg: 'Datos ingresados insuficientes' })
+            res.status(400).json({ msg: 'Datos ingresados insuficientes' })
         } else {
             const direccion = `${data.calle}${data.altura}`
             url = `https://apis.datos.gob.ar/georef/api/direcciones?direccion=${direccion}&provincia=${data.provincia}`;
@@ -29,7 +29,7 @@ class Normalizador {
                 const info = response.data;
                 const direcciones = info.direcciones;
                 const cantidad = info.cantidad;
-                if (cantidad == 0) { res.json({ msg: 'Calle no encontrada' }) } else if (cantidad == 1) {
+                if (cantidad == 0) { res.status(404).json({ msg: 'Calle no encontrada' }) } else if (cantidad == 1) {
                     const data = direcciones[0];
                     res.json(data.nomenclatura)
                 } else {
@@ -60,7 +60,7 @@ class Normalizador {
             .then((response) => {
                 const info = response.data;
                 const cantidad = info.cantidad;
-                if (cantidad == 0) { res.json({ msg: 'No conozco esa direcciòn' }) } else {
+                if (cantidad == 0) { res.status(400).json({ msg: 'Direccion mal ingresada' }) } else {
                     const direcciones = info.direcciones[0];
                     nuevaLat = direcciones.ubicacion.lat;
                     nuevaLong = direcciones.ubicacion.lon;
