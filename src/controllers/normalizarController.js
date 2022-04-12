@@ -5,7 +5,7 @@ import haversine from 'haversine-distance';
 class Normalizador {
     constructor() {}
 
-    async get(req = request, res = response, next) {
+    async get(req = request, res = response) {
         let url;
         const data = req.body;
         if (!data.calle || !data.altura || !data.provincia) {

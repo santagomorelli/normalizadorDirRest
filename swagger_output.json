@@ -23,26 +23,10 @@
                 "tags": ["Normalizar direcciones"],
                 "description": "Retorna una direccion normalizada a partir de los datos necesarios",
                 "parameters": [{
-                    "name": "body",
+                    "type": "object",
                     "in": "body",
                     "schema": {
-                        "type": "object",
-                        "required": "true",
-                        "properties": {
-                            "calle": {
-                                "example": "San Martin"
-                            },
-                            "altura": {
-                                "example": "1901"
-                            },
-                            "provincia": {
-                                "example": "Buenos Aires"
-                            },
-                            "departamento": {
-                                "required": "false",
-                                "example": "General Pueyrredon"
-                            }
-                        }
+                        "$ref": "#/components/schemas/Normalizar"
                     }
                 }],
                 "responses": {
@@ -78,7 +62,7 @@
         "/moneda/": {
             "post": {
                 "tags": ["Moneda oficial de un pais"],
-                "description": "Retorna el nombre de la moneda oficial de un pais. El pais debe ser ingresado en Castellano si es un pais de habla española y en ingles en el resto de los paises",
+                "description": "Retorna el nombre de la moneda oficial de un pais. El pais debe ser ingresado en Español si es un pais de habla hispana y en ingles en el resto de los paises",
                 "parameters": [{
                     "name": "body",
                     "in": "body",
@@ -96,6 +80,32 @@
                         "description": "OK"
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Normalizar": {
+                "type": "object",
+                "properties": {
+                    "calle": {
+                        "type": "string",
+                        "example": "San Martin"
+                    },
+                    "altura": {
+                        "type": "string",
+                        "example": "1901"
+                    },
+                    "provincia": {
+                        "type": "string",
+                        "example": "Buenos Aires"
+                    },
+                    "departamento": {
+                        "type": "string",
+                        "example": "General Pueyrredon"
+                    }
+                },
+                "required": ["calle", "altura", "provincia"]
             }
         }
     }
